@@ -185,10 +185,11 @@ function discrete({
     return elapsedTime < duration ? ((endVal - startVal) / steps) * Math.floor((elapsedTime * (steps + 1)) / duration) + startVal : endVal;
 }
 
-function timeline({loop, autoPlay, numOfLoops} : {
+function timeline({loop, autoPlay, numOfLoops, reverse} : {
     loop : boolean,
     autoPlay : boolean,
     numOfLoops : number
+    reverse: boolean
 }) {
 
     let cumulative = 0;
@@ -205,7 +206,8 @@ function timeline({loop, autoPlay, numOfLoops} : {
             const setup = {
                 autoPlay,
                 loop: false,
-                numOfLoops: 0
+                numOfLoops: 0,
+                reverse
             }
 
             let optsCopy = {

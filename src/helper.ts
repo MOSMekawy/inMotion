@@ -1,6 +1,6 @@
 export { createCanvas, fetchImg };
 
-let createCanvas = (): HTMLCanvasElement => {
+const createCanvas = (): HTMLCanvasElement => {
 
     let root = document.getElementsByTagName('body')[0];
     let canvas = document.createElement('canvas');
@@ -11,33 +11,48 @@ let createCanvas = (): HTMLCanvasElement => {
 
 };
 
-let fetchImg = async (path: string): Promise<any> => {
+function fetchImgClosure() {
 
-    let img : any;
+    const imgs: { 
+        [key: string]: any 
+    } = {};
 
-    return new Promise((resolve, reject) => {
+    return (path: string) : Promise<HTMLImageElement> => { 
 
-        img = new Image();
-        img.src = path;
+        return new Promise((resolve, reject) => {
 
-        img.complete && resolve(img);
+            if (imgs[path]) {
 
-        let success = () => {
-            img.removeEventListener('load', success, false);
-            resolve(img);
-        }
+              resolve(imgs[path]);
 
-        let fail = () => {
-            img.removeEventListener('error', fail, false);
-            reject();
-        };
+            } else {
 
-        img.addEventListener('load', success, false);
+              imgs[path] = new Image();
+              imgs[path].src = path;
+    
+            }
 
-        img.addEventListener('error', fail, false);
+            imgs[path].complete && resolve(imgs[path]);
+    
+            let success = () => {
+                imgs[path].removeEventListener('load', success, false);
+                resolve(imgs[path]);
+            }
+    
+            let fail = () => {
+                imgs[path].removeEventListener('error', fail, false);
+                reject();
+            };
+    
+            imgs[path].addEventListener('load', success, false);
+    
+            imgs[path].addEventListener('error', fail, false);
+    
+    
+        });
 
-
-    });
+    }
 
 };
 
+const fetchImg = fetchImgClosure();

@@ -21,7 +21,8 @@ window.onload = function () {
             test: timeline({
                autoPlay: true,
                loop: true,
-               numOfLoops: 4
+               numOfLoops: 4,
+               reverse: false
             }).add({
                     target: 'x',    
                     startVal: 0,
@@ -30,7 +31,7 @@ window.onload = function () {
                     delay: 0,
                     reverse: false,
                     onStart: () => {
-                        console.log("START");
+                        console.log("HORIZONTAL START");
                     },
                     easing: linear
             }).add({
@@ -41,7 +42,7 @@ window.onload = function () {
                 delay: 0,
                 reverse: false,
                 onStart: () => {
-                    console.log("START");
+                    console.log("VERTICAL START");
                 },
                 easing: linear
         })
